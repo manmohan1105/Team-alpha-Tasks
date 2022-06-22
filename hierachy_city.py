@@ -35,16 +35,17 @@ California
 
 
 
-
+from collections import defaultdict
 from collections import defaultdict
 def function(arr):
     
-    def dfs(node,visited):
-        order_list.append(id_to_name[node])
-        visited.add(node)
-        for child_node in parent_mapping[node]:
+    def dfs(city_array,visited):
+        current_city,city_genr = city_array
+        order_list.append([id_to_name[current_city],city_genr])
+        visited.add(current_city)
+        for child_node in parent_mapping[current_city]:
             if child_node not in visited:
-                dfs(child_node,visited)
+                dfs([child_node,city_genr+1],visited)
 
 
     id_to_name = defaultdict(str)
@@ -59,6 +60,9 @@ def function(arr):
     order_list=[]
     visited=set()
     for node in start_nodes:
-        dfs(node,visited)
+        dfs([node,0],visited)
     print(order_list)
+    for city,city_genr in order_list:
+        print(f'{city_genr*"-"}{city}')
 function([{"name": "California","id": 99,"parent_id": ""},{"name": "Bay Area","id": 1, "parent_id": 99},{"name":"Oakland","id": 2,"parent_id": 1},{"name": "Apple","id": 3,"parent_id": 6},{"name": "San Francisco","id": 6,"parent_id": 8},{"name": "San Francisco County","id": 8,"parent_id": 1},{"name": "New York City","id":4,"parent_id": ""},{"name": "Brooklyn","id": 9,"parent_id": 4},{"name": "Manhattan","id": 5,"parent_id": 4}, { "name": "Goldman Sachs","id": 10,"parent_id": 5}, { "name": "JPMorgan Chase","id": 11,"parent_id": 5}])    
+ 
